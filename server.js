@@ -10,9 +10,9 @@ const app = express();
 const PORT = process.env.PORT || 8000;
 
 
-// const corsOptions = {
-//     origin: ['http://192.168.0.105:3000'],
-// }
+ const corsOptions = {
+     origin: [process.env.ALLOWED_CLIENTS],
+ }
 
 
 var colorArray = ['#c56cf0','#3ae374','#17c0eb','#7158e2','#ff4d4d','#ffaf40','#474787','#ffb142'];
@@ -20,7 +20,7 @@ const leng = colorArray.length   ;
 
 connectDb();
 app.use(cors());
-app.use(express.json());
+app.use(express.json(corsOptions));
 
 
 app.get("/", (req, res) => {
@@ -39,7 +39,7 @@ var users = [] ;
 var colors = [] ; 
 var userroom = [] ; 
 const io = new Server(server, {cors: {
-    origin: "http://192.168.0.105:3000",
+    origin: [process.env.ALLOWED_CLIENTS], 
     methods: ["GET", "POST"] 
 }}) ; 
 
