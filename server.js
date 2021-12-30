@@ -78,12 +78,12 @@ io.on('connection', (socket)=> {
  
     socket.on('leaving', (payload)=> {
 
-      const payload = {
+      const data = {
         from : 'server', 
         message: `${users[socket.id]} left the chat.`, 
         side : "middle" , 
       }
-      socket.to(`room${userroom[socket.id]}`).emit("leave", payload) ;
+      socket.to(`room${userroom[socket.id]}`).emit("leave", data) ;
       socket.leave(`room${userroom[socket.id]}`); 
 
     }); 
