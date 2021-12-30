@@ -11,7 +11,7 @@ const PORT = process.env.PORT || 8000;
 
 
  const corsOptions = {
-     origin: [process.env.ALLOWED_CLIENTS],
+     origin: [process.env.ALLOWED_CLIENTS.split(',')],
  }
 
 
@@ -38,8 +38,10 @@ const server = app.listen(PORT, () => {
 var users = [] ; 
 var colors = [] ; 
 var userroom = [] ; 
+console.log(process.env.ALLOWED_CLIENTS.split(',')) ; 
 const io = new Server(server, {cors: {
-    origin: [process.env.ALLOWED_CLIENTS], 
+
+    origin: [process.env.ALLOWED_CLIENTS.split(',')], 
     methods: ["GET", "POST"] 
 }}) ; 
 
