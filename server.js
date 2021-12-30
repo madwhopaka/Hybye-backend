@@ -76,6 +76,18 @@ io.on('connection', (socket)=> {
       socket.to(`room${data.room}`).emit("receive_message", data);
     });
  
+    socket.on('leaving', (payload)=> {
+
+      const payload = {
+        from : 'server', 
+        message: `${users[socket.id]} left the chat.`, 
+        side : "middle" , 
+      }
+      socket.to(`room${userroom[socket.id]}`).emit("leave", payload) ;
+      socket.leave(`room${userroom[socket.id]}`); 
+
+    }); 
+
 
     socket.on('disconnect', ()=>{
       const payload = {
