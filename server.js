@@ -57,7 +57,7 @@ io.on('connection',(socket)=> {
       userroom[socket.id] = data.code ;
       socket.join("room"+ userroom[socket.id]) ; 
       usersCount++ ; 
-      io.in(`room${userroom[socket.id]}`).emit(usersCount) ; 
+      io.in(`room${userroom[socket.id]}`).emit('updateCount', usersCount) ; 
       console.log(usersCount) ; 
       console.log(`${users[socket.id]}, joined the room${data.code}`);
       const returnData = {
