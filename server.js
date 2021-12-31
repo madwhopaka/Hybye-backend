@@ -47,7 +47,7 @@ const io = new Server(server, {cors: {
 
 
 
-var  usersCount = 0 ; 
+var  usersCount = [0]; 
 
 io.on('connection',(socket)=> {  
       console.log("this is done") ;  
@@ -56,8 +56,8 @@ io.on('connection',(socket)=> {
       colors[socket.id] = colorArray[Math.floor(Math.random()*leng)];
       userroom[socket.id] = data.code ;
       socket.join("room"+ userroom[socket.id]) ; 
-      usersCount++ ; 
-      io.in(`room${userroom[socket.id]}`).emit('updateCount', usersCount) ; 
+      usersCount[userroom[socket.id]]++  ; 
+      io.in(`room${userroom[socket.id]}`).emit('updateCount', usersCount[userroom[socket.id]]) ; 
       console.log(usersCount) ; 
       console.log(`${users[socket.id]}, joined the room${data.code}`);
       const returnData = {
@@ -80,7 +80,7 @@ io.on('connection',(socket)=> {
     });
  
     socket.on('leaving', (payload)=> {
-      usersCount -- ; 
+      
       console.log(usersCount); 
       const data = {
         from : 'server', 
@@ -91,6 +91,7 @@ io.on('connection',(socket)=> {
       
       socket.to(`room${userroom[socket.id]}`).emit("leave", data) ;
       socket.leave(`room${userroom[socket.id]}`); 
+      usersCount[userroom[socket.id]]--; 
 
     }); 
 
