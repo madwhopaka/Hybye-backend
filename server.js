@@ -56,6 +56,7 @@ io.on('connection', (socket)=> {
       colors[socket.id] = colorArray[Math.floor(Math.random()*leng)];
       userroom[socket.id] = data.code ;
       socket.join("room"+ userroom[socket.id]) ; 
+      console.log("The users in the room", io.sockets.clients(`room${userroom[socket.id]}`))
       console.log(`${users[socket.id]}, joined the room${data.code}`);
       const returnData = {
         message: `${data.username} joined the chat`, 
@@ -98,6 +99,6 @@ io.on('connection', (socket)=> {
       console.log("Yeh sab hua") ; 
       console.log(`room${userroom[socket.id]}`);
       console.log(payload) ; 
-      console.log("User left", socket.id);  
+      console.log("Socket left", socket.id);  
     })
 })
