@@ -131,6 +131,7 @@ io.on('connection',(socket)=> {
         message: `${users[socket.id]} left the chat.`, 
         side : "middle" , 
       }
+      socket.to(`room${userroom[socket.id]}`).emit("leave", data) ;
       console.log("Yeh sab hua") ; 
       console.log(`room${userroom[socket.id]}`);
       console.log(payload) ; 
