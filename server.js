@@ -49,9 +49,9 @@ const io = new Server(server, {cors: {
 
 
 
-io.on('connection', async (socket)=> {  
+io.on('connection',(socket)=> {  
       console.log("this is done") ;  
-      socket.on('join-room', (data)=> {
+      socket.on('join-room',  async (data)=> {
       users[socket.id] = data.username;   
       colors[socket.id] = colorArray[Math.floor(Math.random()*leng)];
       userroom[socket.id] = data.code ;
