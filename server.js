@@ -55,7 +55,7 @@ function increateCount(code) {
 
 var roomNumber = rooms.indexOf(code); 
 console.log(roomNumber)
-count = usersCount[roomNumber] ; 
+var count = usersCount[roomNumber] ; 
 if (count==undefined) usersCount[roomNumber] = 1 ; 
 else usersCount[roomNumber]++; 
 console.log(usersCount[roomNumber]);
@@ -66,7 +66,7 @@ return usersCount[roomNumber] ;
 function decreaseCount(code) {
     if (rooms.indexOf(code)!=-1) {
         var roomNumber = rooms.indexOf(code); 
-        count = usersCount[roomNumber] ; 
+        var count = usersCount[roomNumber] ; 
         if (count!=undefined) usersCount[roomNumber]-- ;
 
         return usersCount[roomNumber]; 
