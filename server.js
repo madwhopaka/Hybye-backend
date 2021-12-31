@@ -38,7 +38,7 @@ const server = app.listen(PORT, () => {
 var users = [] ; 
 var colors = [] ; 
 var userroom = [] ; 
-usersCount = [] ; 
+var usersCount = [] ; 
 var rooms = []  ;
 console.log(process.env.ALLOWED_CLIENTS.split(',')) ; 
 const io = new Server(server, {cors: {
