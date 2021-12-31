@@ -134,7 +134,7 @@ io.on('connection',(socket)=> {
         count: count , 
       }
       
-      socket.to(`room${userroom[socket.id]}`).emit("leave", data) ;
+      socket.to(`room${userroom[socket.id]}`).emit("leave", payload) ;
       console.log("Yeh sab hua") ; 
       console.log(`room${userroom[socket.id]}`);
       console.log(payload) ; 
