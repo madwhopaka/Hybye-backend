@@ -126,15 +126,6 @@ io.on('connection',(socket)=> {
 
 
     socket.on('disconnect', ()=>{
-      const count = decreaseCount(userroom[socket.id]);
-      const payload = {
-        from : 'server', 
-        message: `${users[socket.id]} left the chat.`, 
-        side : "middle" , 
-        count: count , 
-      }
-      
-      socket.to(`room${userroom[socket.id]}`).emit("leave", payload) ;
       console.log("Yeh sab hua") ; 
       console.log(`room${userroom[socket.id]}`);
       console.log(payload) ; 
