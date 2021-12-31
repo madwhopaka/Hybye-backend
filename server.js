@@ -128,7 +128,7 @@ io.on('connection',(socket)=> {
     socket.on('disconnect', ()=>{
       console.log("Yeh sab hua") ; 
       console.log(`room${userroom[socket.id]}`);
-      console.log(payload) ; 
+  
       console.log("Socket left", socket.id);  
     })
 })
