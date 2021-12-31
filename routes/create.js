@@ -12,7 +12,14 @@ function generateRoomCode(length) {
         result += characters.charAt(Math.floor(Math.random() * charactersLength));
       
     }
+   
     result+= Math.floor(Math.random()*100) ; 
+    if (result.length<12) {
+        randomnumber = Math.floor(Math.random()*10) ; 
+        result+=randomnumber ;
+    }
+    
+    
     return result;
 }
 
