@@ -47,16 +47,17 @@ const io = new Server(server, {cors: {
 
 
 
-
+var  usersCount = 0 ; 
 
 io.on('connection',(socket)=> {  
       console.log("this is done") ;  
-      socket.on('join-room',  async (data)=> {
+      socket.on('join-room',(data)=> {
       users[socket.id] = data.username;   
       colors[socket.id] = colorArray[Math.floor(Math.random()*leng)];
       userroom[socket.id] = data.code ;
       socket.join("room"+ userroom[socket.id]) ; 
-      let roomUsers =await io.in(`room${userroom[socket.id]}`).fetchSockets();
+      usersCount++ ; 
+      io.in(`room${userroom[socket.id]}`).emit(usersCount) ; 
       console.log(roomUsers) ; 
       console.log(`${users[socket.id]}, joined the room${data.code}`);
       const returnData = {
@@ -79,12 +80,15 @@ io.on('connection',(socket)=> {
     });
  
     socket.on('leaving', (payload)=> {
-
+      usersCount -- ; 
+      console.log(usersCount); 
       const data = {
         from : 'server', 
         message: `${users[socket.id]} left the chat.`, 
         side : "middle" , 
+        count: usersCount, 
       }
+      
       socket.to(`room${userroom[socket.id]}`).emit("leave", data) ;
       socket.leave(`room${userroom[socket.id]}`); 
 
