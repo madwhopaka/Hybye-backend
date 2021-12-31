@@ -78,6 +78,8 @@ io.on('connection',(socket)=> {
       console.log(data); 
       socket.to(`room${data.room}`).emit("receive_message", data);
     });
+    usersCount[userroom[socket.id]]--; 
+
  
     socket.on('leaving', (payload)=> {
       
@@ -86,13 +88,12 @@ io.on('connection',(socket)=> {
         from : 'server', 
         message: `${users[socket.id]} left the chat.`, 
         side : "middle" , 
-        count: usersCount, 
+        count:  usersCount[userroom[socket.id]], 
       }
       
       socket.to(`room${userroom[socket.id]}`).emit("leave", data) ;
       socket.leave(`room${userroom[socket.id]}`); 
-      usersCount[userroom[socket.id]]--; 
-
+     
     }); 
 
 
