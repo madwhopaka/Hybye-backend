@@ -108,7 +108,7 @@ io.on('connection',(socket)=> {
    
     
     socket.on('leaving', (payload)=> { 
-      const count = decreaseCount(userroom[socket.id]); 
+      var count = decreaseCount(userroom[socket.id]); 
 
       console.log(usersCount); 
       const data = {
@@ -126,13 +126,14 @@ io.on('connection',(socket)=> {
 
 
     socket.on('disconnect', ()=>{
+      const count = decreaseCount(userroom[socket.id]);
       const payload = {
         from : 'server', 
         message: `${users[socket.id]} left the chat.`, 
         side : "middle" , 
         count: count , 
       }
-      const count = decreaseCount(userroom[socket.id]);
+      
       socket.to(`room${userroom[socket.id]}`).emit("leave", data) ;
       console.log("Yeh sab hua") ; 
       console.log(`room${userroom[socket.id]}`);
