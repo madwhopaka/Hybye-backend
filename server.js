@@ -98,8 +98,6 @@ io.on('connection', (socket)=> {
       console.log("Yeh sab hua") ; 
       console.log(`room${userroom[socket.id]}`);
       console.log(payload) ; 
-      socket.to(`room${userroom[socket.id]}`).emit("leave", payload) ;
-      socket.leave(`room${userroom[socket.id]}`); 
       console.log("User left", socket.id);  
     })
 })
