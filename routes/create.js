@@ -15,7 +15,7 @@ function generateRoomCode(length) {
    
     result+= Math.floor(Math.random()*100) ; 
     if (result.length<12) {
-        randomnumber = Math.floor(Math.random()*10) ; 
+      const randomnumber = Math.floor(Math.random()*10) ; 
         result+=randomnumber ;
     }
     
