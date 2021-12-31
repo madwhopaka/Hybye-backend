@@ -38,6 +38,8 @@ const server = app.listen(PORT, () => {
 var users = [] ; 
 var colors = [] ; 
 var userroom = [] ; 
+usersCount = [] ; 
+var rooms = []  ;
 console.log(process.env.ALLOWED_CLIENTS.split(',')) ; 
 const io = new Server(server, {cors: {
 
@@ -46,19 +48,45 @@ const io = new Server(server, {cors: {
 }}) ; 
 
 
+function increateCount(code) {
+  if (rooms.indexOf(code)==-1)
+{console.log('pushed')
+  rooms.push(code) ; }
 
-var  usersCount = [0]; 
+var roomNumber = rooms.indexOf(code); 
+console.log(roomNumber)
+count = usersCount[roomNumber] ; 
+if (count==undefined) usersCount[roomNumber] = 1 ; 
+else usersCount[roomNumber]++; 
+console.log(usersCount[roomNumber]);
+
+return usersCount[roomNumber] ; 
+}  
+
+function decreaseCount(code) {
+    if (rooms.indexOf(code)!=-1) {
+        var roomNumber = rooms.indexOf(code); 
+        count = usersCount[roomNumber] ; 
+        if (count!=undefined) usersCount[roomNumber]-- ;
+
+        return usersCount[roomNumber]; 
+    }
+}
+
+
 
 io.on('connection',(socket)=> {  
       console.log("this is done") ;  
+
+
+
       socket.on('join-room',(data)=> {
       users[socket.id] = data.username;   
       colors[socket.id] = colorArray[Math.floor(Math.random()*leng)];
       userroom[socket.id] = data.code ;
-      socket.join("room"+ userroom[socket.id]) ; 
-      usersCount[userroom[socket.id]]++  ; 
-      io.in(`room${userroom[socket.id]}`).emit('updateCount', usersCount[userroom[socket.id]]) ; 
-      console.log(usersCount) ; 
+      const count = increateCount(userroom[socket.id]) ; 
+      socket.join("room"+ userroom[socket.id]) ;  
+      io.in(`room${userroom[socket.id]}`).emit('updateCount', count) ; 
       console.log(`${users[socket.id]}, joined the room${data.code}`);
       const returnData = {
         message: `${data.username} joined the chat`, 
@@ -67,7 +95,6 @@ io.on('connection',(socket)=> {
         from : "server",
       }
       console.log(socket.rooms.has(`room${data.code}`)); 
-      console.log( io.engine.clientsCount); 
       socket.to(`room${userroom[socket.id]}`).emit('others-joined',returnData) ; 
     });
 
@@ -78,20 +105,21 @@ io.on('connection',(socket)=> {
       console.log(data); 
       socket.to(`room${data.room}`).emit("receive_message", data);
     });
-    usersCount[userroom[socket.id]]--; 
+   
+    
+    socket.on('leaving', (payload)=> { 
+      const count = decreaseCount(userroom[socket.id]); 
 
- 
-    socket.on('leaving', (payload)=> {
-      
       console.log(usersCount); 
       const data = {
         from : 'server', 
         message: `${users[socket.id]} left the chat.`, 
         side : "middle" , 
-        count:  usersCount[userroom[socket.id]], 
+        count: count, 
       }
       
       socket.to(`room${userroom[socket.id]}`).emit("leave", data) ;
+      
       socket.leave(`room${userroom[socket.id]}`); 
      
     }); 
