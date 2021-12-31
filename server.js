@@ -49,7 +49,7 @@ const io = new Server(server, {cors: {
 
 
 
-io.on('connection', (socket)=> {  
+io.on('connection', async (socket)=> {  
       console.log("this is done") ;  
       socket.on('join-room', (data)=> {
       users[socket.id] = data.username;   
